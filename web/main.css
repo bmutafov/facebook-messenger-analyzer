@@ -1,0 +1,149 @@
+body {
+    background-color: #f7f4fc  !important;
+}
+
+.white-bg {
+    background: white;
+}
+
+.more {
+    font-size: 1rem !important;
+}
+
+.contrast {
+    background-color: lightseagreen;
+    color: white;
+    border-radius: 2px;
+    padding: 3px 10px;
+}
+
+.restrict-height {
+    height: 350px;
+    padding: 20px 0px 20px 0px;
+}
+
+.chartContainer {
+    width: 300px;
+    height: 300px;
+}
+
+.flex_wrapper {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+}
+.dataTables_length {
+    width: 50%;
+}
+
+.dataTables_filter {
+    width: 50%;
+}
+#initiatingMessages_info, #initiatingMessages_paginate {
+    width: 50%;
+}
+
+.dataTables_paginate a {
+    background: #fff;
+    padding: 5px 10px;
+    margin: 10px 2px 0px 2px;
+    border: 1px solid #007bff;
+    border-radius: 3px;
+    transition: 0.3s;
+}
+
+.dataTables_paginate a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: #007bff;
+    cursor: pointer;
+}
+
+.dataTables_paginate a.current {
+    border: none;
+    color: #2f2f2f;
+}
+
+.dataTables_paginate a.current:hover {
+    border: none;
+    color: #2f2f2f;
+    background: white;
+    cursor: not-allowed;
+}
+
+div.dataTables_wrapper div.dataTables_info {
+    padding-top: 0 !important;
+}
+
+.row {
+    margin-top: 20px;
+}
+
+h1 {
+    width: 100%;
+}
+
+nav a {
+    transition: 0.5s;
+    margin-left: 10px;
+}
+
+nav a:hover {
+    background: #b3d8ff;
+}
+
+.hidden-div {
+    display: none;
+}
+
+.container-hidden {
+    display: none;
+}
+
+.load-bar {
+    position: relative;
+    margin-top: 20px;
+    width: 100%;
+    height: 6px;
+    background-color: rgba(54, 162, 235, 1);
+  }
+.bar {
+    content: "";
+    display: inline;
+    position: absolute;
+    width: 0;
+    height: 100%;
+    left: 50%;
+    text-align: center;
+}
+.bar:nth-child(1) {
+    background-color: #fff;
+    animation: loading 3s linear infinite;
+}
+.bar:nth-child(2) {
+    background-color: rgba(255, 99, 132, 1);
+    animation: loading 3s linear 1s infinite;
+}
+.bar:nth-child(3) {
+    background-color: rgba(54, 162, 235, 1);
+    animation: loading 3s linear 2s infinite;
+}
+@keyframes loading {
+    from {left: 50%; width: 0;z-index:100;}
+    33.3333% {left: 0; width: 100%;z-index: 10;}
+    to {left: 0; width: 100%;}
+}
+
+.container-away {
+    position: absolute;
+    top: -10000px;
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto; 
+    width: 100px; /* Need a specific value to work */
+}
+
+.container {
+    transition: 1s !important;
+}

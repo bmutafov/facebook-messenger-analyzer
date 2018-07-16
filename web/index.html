@@ -1,0 +1,231 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Messenger analysator</title>
+    <meta name="description" content="The HTML5 Herald">
+    <meta name="author" content="SitePoint">
+    
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"> 
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+    <script src="result.js"></script>
+    <script src="main.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+        
+    <div class="alert alert-danger w-50 mt-3 mx-auto empty-data" role="alert" style="display: none;">
+        <strong>Oops!</strong> Seems like no data has been generated yet. Please follow the instructions on the <a href="#" class="alert-link">GitHub Repository</a> to run the NodeJS data analyser!
+    </div>
+    <div class="load-container">
+        <div class="load-bar shadow-sm">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <h1 class="font-weight-light text-center text-uppercase mt-3">generating charts</h1>
+        <div class="load-bar shadow-sm">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    </div>
+
+    <div class="container container-away">
+        <div class="row shadow-sm py-2 white-bg ppl-comparison">
+            <table class="table table-borderless">
+                <tbody>                   
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row shadow-sm py-2 white-bg">
+                <nav class="nav nav-pills nav-justified col-12">
+                </nav>
+        </div>
+        <div class="row restrict-height justify-content-between shadow-sm white-bg">
+            <div class="col-3 border-right">
+                <h2 class="font-weight-light text-center text-uppercase border-top border-bottom">Messages</h2>
+                <canvas id="msgCountChart" width="60" height="60" style="display: block; width: 240px; height: 240px;"></canvas>
+            </div>
+            <div class="col-3 border-right">
+                <h2 class="font-weight-light text-center text-uppercase border-top border-bottom">Words</h2>
+                <canvas id="wordCountChart" width="60" height="60" style="display: block; width: 240px; height: 240px;"></canvas>
+            </div>
+            <div class="col-3 border-right">
+                <h2 class="font-weight-light text-center text-uppercase border-top border-bottom">Initiated chat</h2>
+                <canvas id="initiatedChart" width="60" height="60" style="display: block; width: 240px; height: 240px;"></canvas>
+            </div>
+            <div class="col-3">
+                <h2 class="font-weight-light text-center text-uppercase border-top border-bottom">Response time</h2>
+                <canvas id="responseChart" width="60" height="60" style="display: block; width: 240px; height: 240px;"></canvas>
+            </div>
+        </div>
+
+    <div class="row shadow-sm white-bg">
+        <div class="col-lg-12">
+            <hr>
+            <h1 class="font-weight-light text-center text-uppercase">Head 2 Head</h1>
+            <hr>
+            <table class="table table-bordered table-hover general-info">
+                <thead>
+                    <tr>
+                    <th scope="col">Person</th>
+                    <th scope="col">Messages</th>
+                    <th scope="col">Words</th>
+                    <th scope="col">Initiated chat</th>
+                    <th scope="col">Response time (avg)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- content will come here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row shadow-sm white-bg">
+        <div class="col-lg-12">
+            <hr>
+            <h1 class="font-weight-light text-center text-uppercase">Chat Information</h1>
+            <hr>
+            <table class="table table-bordered table-hover chat-info">
+                <thead>
+                    <tr>
+                    <th scope="col">Messages</th>
+                    <th scope="col">Chat Duration</th>
+                    <th scope="col">Avg Per day</th>
+                    <th scope="col">First message</th>
+                    <th scope="col">Last message</th>
+                    <th scope="col" colspan="3">Consecutive messagin days</th>
+                    <th scope="col" colspan="2">Most messages</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- content will come here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row shadow-sm white-bg pb-2">
+        <div class="col-lg-12">
+            <hr>
+            <h1 class="font-weight-light text-center text-uppercase">Most Used words in chat</h1>
+            <hr>
+            <table id="wordsInChat" class="table table-bordered table-hover most-used-words">
+                <thead>
+                    <tr>
+                    <th scope="col">Word</th>
+                    <th scope="col">You</th>
+                    <th scope="col">Friend</th>
+                    <th scope="col">Together</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- content will come here -->
+                </tbody>
+            </table>
+            <div class="hidden-div">
+                <canvas id="mostUsedWordsChart" width="130" height="60" style="display: block; width: 100%; height: 240px;"></canvas>
+            </div>
+            <button id="toggleWords" type="button" class="btn btn-outline-info btn-lg btn-block"> Toggle chart/table </button>
+        </div>
+    </div>
+    
+    <div class="row shadow-sm white-bg">
+        <div class="col-lg-12">
+            <hr>
+            <h1 class="font-weight-light text-center text-uppercase">Most used emojis in chat</h1>
+            <hr>
+            <table class="table table-bordered table-hover most-used-emojis">
+                <thead>
+                    <tr>
+                    <th scope="col">Emoji</th>
+                    <th scope="col">You</th>
+                    <th scope="col">Friend</th>
+                    <th scope="col">Together</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- content will come here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row shadow-sm white-bg">
+        <hr style="width: 98%">
+        <h1 class="font-weight-light text-center text-uppercase">Messages per day</h1>
+        <hr style="width: 98%">
+        <canvas id="msgPerDayChart" width="130" height="60" style="display: block; width: 100%; height: 240px;"></canvas>
+    </div>
+    <div class="row shadow-sm white-bg">
+        <hr style="width: 98%">
+        <h1 class="font-weight-light text-center text-uppercase">Messages over time</h1>
+        <hr style="width: 98%">
+        <canvas id="msgCountOverTimeChart" width="130" height="60" style="display: block; width: 100%; height: 240px;"></canvas>
+    </div>
+
+    <div class="row shadow-sm white-bg pb-3">
+        <hr style="width: 98%">
+        <h1 class="font-weight-light text-center text-uppercase">Messages per hour</h1>
+        <hr style="width: 98%">
+        <canvas id="msgPerHour" width="130" height="60" style="display: block; width: 100%; height: 240px;"></canvas>
+        <button type="button" class="btn btn-outline-info btn-lg btn-block togglePerHour mt-3 mx-2"> Toggle chart style </button>
+    </div>
+
+    <div class="row shadow-sm white-bg pb-3" style="display: none">
+        <hr style="width: 98%">
+        <h1 class="font-weight-light text-center text-uppercase">Messages per hour</h1>
+        <hr style="width: 98%">
+        <canvas id="msgPerHourBar" width="130" height="60" style="display: block; width: 100%; height: 240px;"></canvas>
+        <!-- <canvas id="msgPerHour" width="130" height="60" style="display: block; width: 100%; height: 240px;"></canvas> -->
+        <button type="button" class="btn btn-outline-info btn-lg btn-block togglePerHour mt-3 mx-2"> Toggle chart style </button>
+    </div>
+
+    <div class="row shadow-sm white-bg">
+        <div style="width: 95%; margin: 0 auto; padding-bottom: 20px;">
+            <hr>
+            <h1 class="font-weight-light text-center text-uppercase">Initiating messages</h1>
+            <hr>
+            <table id="initiatingMessages" class="table table-bordered table-hover initiating-messages">
+                <thead>
+                    <tr>
+                    <th scope="col">Sender</th>
+                    <th scope="col">Time passed</th>
+                    <th scope="col">Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- content will come here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            Boriskata Ludee Corp. &copy; 2018 <br>
+            By viewing this page you agree to our terms of service.
+        </div>
+        <div class="col-6">
+            Terms of service: <br>
+            <ul>
+                <li>10$ per view</li>
+                <li>20$ per usage</li>
+            </ul>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

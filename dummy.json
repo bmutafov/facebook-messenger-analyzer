@@ -1,0 +1,22 @@
+{
+    "messages": [
+        {
+            "sender_name": "John Doe",
+            "content" : "Uno dos tres. ",
+            "timestamp": 1531774894,
+            "type": "Generic"
+        },
+        {
+            "sender_name": "John Doe",
+            "content" : "Que?",
+            "timestamp": 1531774891,
+            "type": "Generic"
+        },
+        {
+            "sender_name": "Elvis Presley",
+            "content" : "Ja.",
+            "timestamp": 1531774824,
+            "type": "Generic"
+        }
+    ]
+}
