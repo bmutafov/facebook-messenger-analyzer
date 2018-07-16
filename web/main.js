@@ -1,4 +1,3 @@
-
 $(document).ready(function() {
     var personToShow = getUrlParameter('personToShow') || 0;
     if(data.length <= 0) {
@@ -38,7 +37,7 @@ $(document).ready(function() {
     for(let i = 0; i < data.length; i++) {
         var frName = data[i].data.friend.name;
         var frNameMachine = frName.split(' ').join('-');
-        var linkHTML = '<a class="nav-item nav-link' + (parseInt(personToShow) === i ? ' active ' : '') +'" href="file:///C:/Users/mutaf/Documents/msgcounter/web/index.html?personToShow=' + i +'" id="' + frNameMachine + '">'+ frName +'</a>';
+        var linkHTML = '<a class="nav-item nav-link' + (parseInt(personToShow) === i ? ' active ' : '') +'" href="index.html?personToShow=' + i +'" id="' + frNameMachine + '">'+ frName +'</a>';
         $('nav').append(linkHTML);
     }
 
