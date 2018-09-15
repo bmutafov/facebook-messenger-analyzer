@@ -12,28 +12,31 @@ var buildView = require('./modules/buildView');
 const { lstatSync, readdirSync } = require('fs')
 const { join } = require('path')
 
-// if(fileToRead === '.') {
-//     const isDirectory = source => lstatSync(source).isDirectory()
-//     const getDirectories = source =>
-//       readdirSync(source).map(name => join(source, name)).filter(isDirectory);
-//     var directories = getDirectories('msgs/');
-//     vars.init();
-//     directories.forEach(directory => {
-//         parse.fileEncoding(directory + "/message.json");
-//         analyse("output.json");
-//     });
-// } else {
+if(fileToRead === '.') {
+    const isDirectory = source => lstatSync(source).isDirectory()
+    const getDirectories = source =>
+      readdirSync(source).map(name => join(source, name)).filter(isDirectory);
+    var directories = getDirectories('msgs/');
+    directories.forEach(directory => {
+        vars.reset();
+        var error = parse.fileEncoding(directory + "/message.json");
+        if(!error) analyse("output.json");
+    });
+} else {
     parse.fileEncoding(fileToRead);
     analyse("output.json");
-// }
+}
 console.timeEnd('exec');
 
 function analyse(outputFile) {
     var bigData = parse.messages(outputFile);
-    if(bigData.participants.length > 2) return;
+    try{
+        if(bigData.participants.length > 2) return;
+    } catch(e) {
+        console.log("Catched error: " + e);
+        return;
+    }
     var messages = bigData.messages;
-
-    // console.log(JSON.stringify(vars.initiated));
 
     var last = {
         timestamp_ms : 0,

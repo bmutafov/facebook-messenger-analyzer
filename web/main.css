@@ -136,7 +136,7 @@ nav a:hover {
 
 .container-away {
     position: absolute;
-    top: -10000px;
+    top: -100000px;
     left: 0; 
     right: 0; 
     margin-left: auto; 
@@ -144,6 +144,10 @@ nav a:hover {
     width: 100px; /* Need a specific value to work */
 }
 
+.link-row:hover {
+    background: #f7f7f7;
+    cursor: pointer;
+}
 .container {
     transition: 1s !important;
 }

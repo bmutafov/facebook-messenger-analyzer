@@ -6,6 +6,7 @@ $(document).ready(function() {
     } else if(data.length === 1) {
         $('.ppl-comparison').hide();
     } else {
+        
         data.sort(function (a, b) {
             var msgA = a.data.allMessages.count;
             var msgB = b.data.allMessages.count;
@@ -13,6 +14,9 @@ $(document).ready(function() {
             else if(msgA === msgB) return 0;
             else return 1;
         });
+        if(data.length > 15) {
+            data.splice(- (data.length - 15), data.length);
+        }
         var max = {
             index: -1,
             count: 0,
@@ -21,39 +25,67 @@ $(document).ready(function() {
             if(data[i].data.allMessages.count > max.count) {
                 max.index = i;
                 max.count = data[i].data.allMessages.count;
+                max.you = data[i].data.you.messagesCount;
+                max.friend = data[i].data.friend.messagesCount;
             }
         }
         var i = 0;
         data.forEach(p => {
-            var pplHTML = '<tr>' +
-                                '<td class="w-25 text-right">' + p.data.friend.name + '</td>'+
-                                '<td class="align-middle"'+
-                                ' id="tooltip-' + i + '" data-placement="bottom" title="'+ 'Messages: <b>' + p.data.allMessages.count + '</b>' +'">'+
-                                    '<div class="progress">'+
-                                    ' <div class="progress-bar '+ (p.data.friend.name === data[personToShow].data.friend.name ? ' bg-danger ' : '') +
-                                    '" role="progressbar" style="width: ' + Math.round((p.data.allMessages.count / max.count ) * 100)+'%"' +
-                                    ' aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">'+
-                                    '</div>'+
-                                    '</div>'+
-                                '</td>'+
-                            '</tr>';
-            $('.ppl-comparison tbody:last-child').append(pplHTML);
-            $('#tooltip-' + i).tooltip({html: true});
-            i++;
+            try{
+                var allMsg = p.data.allMessages.count;
+                var frMsg = p.data.friend.messagesCount;
+                var youMsg = p.data.you.messagesCount;
+                var frName = data[i].data.friend.name;
+                var frNameMachine = frName.split(' ').join('-');
+
+                var pplHTML =  
+                                '<tr id="link-' + i + '" class="link-row">' +
+                                    '<td class="text-left" style="width: 5%">#' + i + '</td>'+
+                                    '<td class="w-25 text-right">' + p.data.friend.name + '</td>'+
+                                    '<td class="align-middle"'+
+                                    ' id="tooltip-' + i + '" data-placement="bottom" title="'+ 'Messages: <b>' + p.data.allMessages.count + '</b><br>'+
+                                    'You: <b>' + youMsg +'</b><i>('+Math.round(youMsg / allMsg  * 100)+')%</i><br>'+
+                                    'Friend: <b>' + frMsg + '</b><i>(' + Math.round(frMsg / allMsg * 100) + ')%</i>'+
+                                    '">'+
+                                        '<div class="progress">'+
+                                        ' <div class="progress-bar '+ (p.data.friend.name === data[personToShow].data.friend.name ? ' progress-bar-striped ' : '') +
+                                        '" role="progressbar" style="width: ' + Math.round(youMsg / max.count  * 100) +'%"' +
+                                        ' aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">'+
+                                        '</div>'+
+                                        ' <div class="progress-bar '+ (p.data.friend.name === data[personToShow].data.friend.name ? ' progress-bar-striped bg-success ' : ' bg-success ') +
+                                        '" role="progressbar" style="width: ' + Math.round(frMsg / max.count  * 100) +'%"' +
+                                        ' aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">'+
+                                        '</div>'+
+                                        '</div>'+
+                                    '</td>'+
+                                '</tr>';
+                $('.ppl-comparison tbody:last-child').append(pplHTML);
+                $('#tooltip-' + i).tooltip({html: true});
+                i++;
+            } catch(e) {console.log(e)}
         });
-        
+        for(; i>=0; i--){   
+            bindListener(i);
+        }
+        function bindListener(i) {
+            $('#link-' + i).click(function() {
+                window.location.href = '?personToShow=' + i;
+            });
+        }
         
     }
     if(personToShow >= data.length) personToShow = 0;
 
     var parseDaata = data[personToShow].data;
 
-    for(let i = 0; i < data.length; i++) {
-        var frName = data[i].data.friend.name;
-        var frNameMachine = frName.split(' ').join('-');
-        var linkHTML = '<a class="nav-item nav-link' + (parseInt(personToShow) === i ? ' active ' : '') +'" href="index.html?personToShow=' + i +'" id="' + frNameMachine + '">'+ frName +'</a>';
-        $('nav').append(linkHTML);
-    }
+    // for(let i = 0; i < data.length; i++) {
+    //     try{
+    //         var frName = data[i].data.friend.name;
+    //         var frNameMachine = frName.split(' ').join('-');
+    //         var linkHTML = '<a class="nav-item nav-link' + (parseInt(personToShow) === i ? ' active ' : '') +'" href="index.html?personToShow=' + i +'" id="' + frNameMachine + '">'+ frName +'</a>';
+    //         $('nav').append(linkHTML);
+    //     } catch(e) {}
+    // }
 
     $('.togglePerHour').click(function() {
         $('#msgPerHour').parent().toggle();

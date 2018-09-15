@@ -18,7 +18,6 @@ module.exports = {
         console.log("Build to file: success");
     },
     object: () => {
-        console.log(vars.build === null);
         if(vars.build != null) return vars.build;
         var build = {
             you: {
