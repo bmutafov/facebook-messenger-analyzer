@@ -6,6 +6,13 @@ $(document).ready(function() {
     } else if(data.length === 1) {
         $('.ppl-comparison').hide();
     } else {
+        data.sort(function (a, b) {
+            var msgA = a.data.allMessages.count;
+            var msgB = b.data.allMessages.count;
+            if(msgA > msgB) return -1;
+            else if(msgA === msgB) return 0;
+            else return 1;
+        });
         var max = {
             index: -1,
             count: 0,
@@ -16,16 +23,23 @@ $(document).ready(function() {
                 max.count = data[i].data.allMessages.count;
             }
         }
+        var i = 0;
         data.forEach(p => {
             var pplHTML = '<tr>' +
                                 '<td class="w-25 text-right">' + p.data.friend.name + '</td>'+
-                                '<td class="align-middle">'+
+                                '<td class="align-middle"'+
+                                ' id="tooltip-' + i + '" data-placement="bottom" title="'+ 'Messages: <b>' + p.data.allMessages.count + '</b>' +'">'+
                                     '<div class="progress">'+
-                                    ' <div class="progress-bar '+ (p.data.friend.name === data[personToShow].data.friend.name ? ' bg-danger ' : '') +'" role="progressbar" style="width: ' + Math.round((p.data.allMessages.count / max.count ) * 100)+'%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>'+
+                                    ' <div class="progress-bar '+ (p.data.friend.name === data[personToShow].data.friend.name ? ' bg-danger ' : '') +
+                                    '" role="progressbar" style="width: ' + Math.round((p.data.allMessages.count / max.count ) * 100)+'%"' +
+                                    ' aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">'+
+                                    '</div>'+
                                     '</div>'+
                                 '</td>'+
                             '</tr>';
             $('.ppl-comparison tbody:last-child').append(pplHTML);
+            $('#tooltip-' + i).tooltip({html: true});
+            i++;
         });
         
         

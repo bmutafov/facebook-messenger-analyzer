@@ -3,7 +3,7 @@ var config = require('./config');
 
 module.exports = {
     check: (curr, prev) => {
-        var diff = (curr - prev)/60/60;
+        var diff = (curr - prev)/1000/60/60;
         return {
             bool: diff >= config.system.responseTime,
             time: diff,

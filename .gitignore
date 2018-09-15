@@ -36,6 +36,7 @@ build/Release
 node_modules/
 jspm_packages/
 msg/
+msgs/
 
 # TypeScript v1 declaration files
 typings/
@@ -60,3 +61,6 @@ typings/
 
 # next.js build output
 .next
+
+output.json
+web/result.js

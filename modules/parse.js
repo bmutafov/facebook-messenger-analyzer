@@ -30,7 +30,7 @@ var parse = {
         console.timeEnd('parseFile');
     },
     messages: (outputFile) => {
-        return JSON.parse(fs.readFileSync(outputFile)).messages;
+        return JSON.parse(fs.readFileSync(outputFile));
     }
 }
 

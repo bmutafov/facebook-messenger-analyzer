@@ -9,15 +9,16 @@ module.exports = {
         var build = module.exports.object();
         console.log( JSON.stringify(build, null, 4) );
     },
-    toFile: (file) => {
+    toFile: (file, beautify) => {
         var build = module.exports.object();
         build.msgPerDays = vars.messagesPerDay;
         var currentData = JSON.parse(fs.readFileSync(file, 'utf8').replace('var data = ', '').replace(';',''));
         currentData.push({data: build});
-        fs.writeFileSync(file, "var data = " + JSON.stringify(currentData, null, 4));
+        fs.writeFileSync(file, "var data = " + (beautify ? JSON.stringify(currentData, null, 4) : JSON.stringify(currentData)));
         console.log("Build to file: success");
     },
     object: () => {
+        console.log(vars.build === null);
         if(vars.build != null) return vars.build;
         var build = {
             you: {
@@ -52,7 +53,7 @@ module.exports = {
                 vars.initiated[1].messages
             ]
         };
-        vars.build = build;
+       vars.build = build;
         return build;
     },
     topUsedEmojis: (max) => {

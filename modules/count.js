@@ -11,7 +11,7 @@ module.exports = {
         vars.personMessages[sender].wordCount += wordCount;
     },
     messagesOnDate: (sender, timestamp) => {
-        var dateRaw = new Date(timestamp * 1000);
+        var dateRaw = new Date(timestamp);
         var date = config.system.dateFormat(dateRaw.getDate(), dateRaw.getMonth(), dateRaw.getFullYear());
         var foundMsg = vars.messagesPerDay.find(msg => {
             return msg.date === date;
@@ -82,11 +82,15 @@ module.exports = {
         });
 
     },
-    messagesPerDay: (messages) => {
-        vars.allMessages.firstMessage = new Date(messages[messages.length - 1].timestamp * 1000);
-        vars.allMessages.lastMessage = new Date(messages[0].timestamp * 1000);
-        vars.chatDuration = Math.round((messages[0].timestamp - messages[messages.length - 1].timestamp)/60/60/24);
-        vars.allMessages.averageMessagesPerDay = Math.round(vars.allMessages.count / vars.chatDuration);
+    firstAndLastMessage: (messages) => {
+        vars.allMessages.firstMessage = new Date(messages[messages.length - 1].timestamp_ms);
+        vars.allMessages.lastMessage = new Date(messages[0].timestamp_ms);
+    },
+    chatDuration: (messages) => {
+        vars.chatDuration = Math.round((messages[0].timestamp_ms - messages[messages.length - 1].timestamp_ms)/1000/60/60/24);
+    },
+    messagesPerDay: () => {
+        vars.allMessages.averageMessagesPerDay = Math.round( (vars.allMessages.count / vars.chatDuration) * 100) / 100;
     },
     consecutiveMsgingDays: () => {
         var lastDateRaw = vars.messagesPerDay[0].date.split('-');
@@ -154,12 +158,12 @@ module.exports = {
         }
     },
     perHour: (timestamp) => {
-        var date = new Date(timestamp * 1000);
-        date.setHours(date.getUTCHours() + 6);
+        var date = new Date(timestamp);
+        date.setHours(date.getUTCHours() + 3);
         vars.msgsPerHour[date.getUTCHours()].messages++;
     },
     replyTime: (sender, lastTime, currTime) => {
-        var diff = (lastTime - currTime)/60;
+        var diff = (lastTime - currTime)/1000/60;
         if(lastTime === 0 || diff > config.system.responseTime) return;
         vars.replyTime[sender].totalTime += diff;
         vars.replyTime[sender].totalReplies++;
