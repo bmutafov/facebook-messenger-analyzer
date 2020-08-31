@@ -1,5 +1,7 @@
 # Facebook Messenger Analyzer
 
+## WARNING: Facebook have changed the structure of the downloaded data, and now instead of all the messages being in one file, they are separated into multiple with 10.000 messages each. The script needs changing before it can function again.
+
 A simple tool which will help you make graphs out of your facebook messenger conversations. Calculates tons of stuff including: 
 * Message count per person
 * Words count per person
